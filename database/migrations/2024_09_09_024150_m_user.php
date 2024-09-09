@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('password');
             $table->timestamps();
 
-            $table->
+            //mendefinisikan foreign key references ke primary key pada di tabel lain
+            $table->foreign('level_id')->references('level_id')->on('m_level');
         });
     }
 
