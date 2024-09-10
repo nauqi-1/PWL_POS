@@ -23,3 +23,6 @@ Route::get('/level', [LevelController::class, 'index']);
 Route::get('/test', function() {
     return 'Hey';
 });
+
+use App\Http\Controllers\KategoriController;
+Route::get('/kategori', [KategoriController::class, 'index']);
