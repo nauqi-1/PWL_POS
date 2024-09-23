@@ -8,6 +8,21 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function index() {
+        $data= [
+            'level_id' => 2,
+            'username' => 'manager_tiga',
+            'nama' => 'Manager 3',
+            'password' => Hash::make('12345') 
+        ];
+        UserModel::create($data);
+
+        $user = UserModel::all();
+        return view ('user', ['data' => $user]);
+
+    }
+    /*
+    
     public function index () {
         /*
         //tambah data baruu 0o0
@@ -19,7 +34,7 @@ class UserController extends Controller
         ];
 
         UserModel::insert($data); //masukkan data baru ke database  
-        */
+        
 
         //tambah data baru dengan eloquent model
         $data = [
@@ -31,4 +46,7 @@ class UserController extends Controller
         $user=UserModel::all(); //ambil semua data dari tabel m_user :3
         return view('user', ['data' => $user]);
     }
-}
+        */
+
+        
+    }
