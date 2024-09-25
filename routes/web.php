@@ -3,6 +3,7 @@ use App\Http\Controllers\LevelController;
 
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
