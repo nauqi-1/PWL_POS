@@ -25,14 +25,20 @@ Route::group(['prefix' => 'user'], function() {
     Route::post('/list', [UserController::class, 'list']); //menampilkan data user dalam bentuk json untuk datatables.
     Route::get('/create', [UserController::class, 'create']); //Membuat data baru
     Route::post('/', [UserController::class, 'store']); //Menyimpan data yang telah dibuat
+
     Route::get('/create_ajax', [UserController::class, 'create_ajax']); //menambah data user dengan ajax
     Route::post('/ajax', [UserController::class, 'store_ajax']); //menyimpan data yg telah dibuat dengan ajax
+    
     Route::get('/{id}', [UserController::class, 'show']); //menampilkan detail data user
     Route::get('/{id}/edit', [UserController::class, 'edit']); //Edit data user tertentu
     Route::put('/{id}', [UserController::class, 'update']); //Menyimpan perubahan data user 
+
+    Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax']); //edit data user dengan ajax
+    Route::put('/{id}/update_ajax', [UserController::class, 'update_ajax']); //menyimpan perubahan data dengan ajax
+
+
     Route::delete('/{id}', [UserController::class, 'destroy']); //Menghapus data user
-    Route::get('/create_ajax', [UserController::class, 'create_ajax']); //menambah data user dengan ajax
-    Route::post('/ajax', [UserController::class, 'store_ajax']); //menyimpan data yg telah dibuat dengan ajax
+
 } );
 
 Route::group(['prefix' => 'level'], function() {
