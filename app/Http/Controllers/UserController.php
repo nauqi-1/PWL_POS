@@ -142,19 +142,29 @@ class UserController extends Controller
 
     public function destroy(string $id) {
         $check = UserModel::find($id);
-        if(!$check) {
-            return redirect('/user') -> with('error', 'Data user tidak ditemukan');
+        
+        if (!$check) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data user tidak ditemukan'
+            ]);
         }
-
+    
         try {
             UserModel::destroy($id);
-
-            return redirect('/user')->with('success', 'Data user berhasil dihapus');
+    
+            return response()->json([
+                'status' => true,
+                'message' => 'Data berhasil dihapus!'
+            ]);
         } catch (\Illuminate\Database\QueryException $e) {
-            return redirect('/user') -> with('error','Data user gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan saat menghapus data.'
+            ]);
         }
     }
-
+    
     public function create_ajax() {
         $level = LevelModel::select('level_id', 'level_nama') -> get();
 
@@ -203,7 +213,7 @@ class UserController extends Controller
     if ($request->ajax() || $request->wantsJson()) {
         $rules = [
             'level_id' => 'required|integer',
-            'username' => 'required|max:20|unique:m_user,username,' . $id . ',user_id',
+            'username' => 'required|max:20|unique:m_user,username',
             'nama' => 'required|max:100',
             'password' => 'nullable|min:6|max:20'
         ];

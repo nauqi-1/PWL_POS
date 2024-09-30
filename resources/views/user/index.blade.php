@@ -50,7 +50,7 @@
 
 @push('css')
 @endpush
-
+ 
 @push('js')
 <script>
     function modalAction(url = '') {
@@ -76,10 +76,10 @@
             },
             columns: [
                 {
-                    data: "user_id",
+                    data: "DT_RowIndex",
                     className: "",
-                    orderable: true,
-                    searchable: true
+                    orderable: false,
+                    searchable: false
                 },
                 {
                     data: "username",
