@@ -26,7 +26,7 @@ Route::get('/kategori', [KategoriController::class, 'index']);
 
 Route::get('/', [WelcomeController::class,'index']);
 
-Route::group(['prefix' => 'user'], function() {
+Route::group(['prefix' => 'user', 'middleware' => 'authorize:ADM'], function() {
     Route::get('/', [UserController::class, 'index']); //Menampilkan laman awal user
     Route::post('/list', [UserController::class, 'list']); //menampilkan data user dalam bentuk json untuk datatables.
     Route::get('/create', [UserController::class, 'create']); //Membuat data baru
@@ -71,7 +71,7 @@ Route::group(['prefix' => 'level', 'middleware' => 'authorize:ADM'], function() 
     Route::delete('/{id}', [LevelController::class, 'destroy']); //Menghapus data level
 } );
 
-Route::group(['prefix' => 'kategori'], function() {
+Route::group(['prefix' => 'kategori', 'middleware' => 'authorize:ADM, MNG'], function() {
     Route::get('/', [KategoriController::class, 'index']); //Menampilkan laman awal kategori
     Route::post('/list', [KategoriController::class, 'list']); //menampilkan data kategori dalam bentuk json untuk datatables.
     Route::get('/create', [KategoriController::class, 'create']); //Membuat data kategori
@@ -94,7 +94,7 @@ Route::group(['prefix' => 'kategori'], function() {
     Route::delete('/{id}', [KategoriController::class, 'destroy']); //Menghapus data kategori
 } );
 
-Route::group(['prefix' => 'supplier'], function() {
+Route::group(['prefix' => 'supplier',  'middleware' => 'authorize:ADM,MNG'], function() {
     Route::get('/', [SupplierController::class, 'index']); // 
     Route::post('/list', [SupplierController::class, 'list']); //
     Route::get('/create', [SupplierController::class, 'create']); //
@@ -117,7 +117,7 @@ Route::group(['prefix' => 'supplier'], function() {
     Route::delete('/{id}', [SupplierController::class, 'destroy']); //
 } );
 
-Route::group(['prefix' => 'barang'], function() {
+Route::group(['prefix' => 'barang', 'middleware' => 'authorize:ADM,MNG'], function() {
     Route::get('/', [BarangController::class, 'index']); //Menampilkan laman awal barang
     Route::post('/list', [BarangController::class, 'list']); //menampilkan data barang dalam bentuk json untuk datatables.
     Route::get('/create', [BarangController::class, 'create']); //Membuat data barang
