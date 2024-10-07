@@ -7,6 +7,7 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 Route::pattern('id','[0-9]+'); //meaning: ketika ada parameter "id" maka nilainya harus angka, yaitu dari 0 sampai 9.
@@ -15,9 +16,13 @@ Route::get('login', [AuthController::class, 'login']) -> name('login');
 Route::post('login', [AuthController::class, 'postLogin']);
 Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');
 
+Route::get('/register', [RegisterController::class, 'create'])->name('register');
+Route::post('/register', [RegisterController::class, 'store']);
+
+
 Route::middleware(['auth'])->group(function() { //meaning: agar semua method pada web.php meleweati middleware auth.php
 
-// yg dibawah ini adalah semua route lainnya yg udh dibuat
+// yg dibawah ini adalah semua route lainnya yg harus login dulu baru bisa akses
 
 
 Route::get('/level', [LevelController::class, 'index']);
@@ -25,6 +30,7 @@ Route::get('/level', [LevelController::class, 'index']);
 Route::get('/kategori', [KategoriController::class, 'index']);
 
 Route::get('/', [WelcomeController::class,'index']);
+
 
 Route::group(['prefix' => 'user', 'middleware' => 'authorize:ADM'], function() {
     Route::get('/', [UserController::class, 'index']); //Menampilkan laman awal user

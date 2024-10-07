@@ -43,6 +43,10 @@
                         </div>
                         <small id="error-password" class="error-text text-danger"></small>
                     </div>
+                    <div class=" text-center">
+                        <p>Haven't made an account?</p>
+                        <a href="{{ route('register')}}">Register</a>
+                    </div>
                     <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">
@@ -82,7 +86,7 @@
             $("#form-login").validate({
                 rules: {
                     username: { required: true, minlength: 4, maxlength: 20 },
-                    password: { required: true, minlength: 5, maxlength: 20 }
+                    password: { required: true, minlength: 6, maxlength: 20 }
                 },
                 submitHandler: function(form) {
                     $.ajax({
@@ -127,5 +131,6 @@
             });
         });
     </script>
+    
 </body>
 </html>
