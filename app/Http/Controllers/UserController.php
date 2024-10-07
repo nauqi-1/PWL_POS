@@ -235,6 +235,8 @@ class UserController extends Controller
                 $request->request->remove('password');
             }
 
+            $request['password'] = Hash::make($request->password);
+
             $check->update($request->all());
 
             return response()->json([

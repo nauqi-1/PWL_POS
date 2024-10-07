@@ -1,19 +1,26 @@
 <?php
+
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BarangController;
-use App\Models\KategoriModel;
 use Illuminate\Support\Facades\Route;
 
+Route::pattern('id','[0-9]+'); //meaning: ketika ada parameter "id" maka nilainya harus angka, yaitu dari 0 sampai 9.
+
+Route::get('login', [AuthController::class, 'login']) -> name('login');
+Route::post('login', [AuthController::class, 'postLogin']);
+Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');
+
+Route::middleware(['auth'])->group(function() { //meaning: agar semua method pada web.php meleweati middleware auth.php
+
+// yg dibawah ini adalah semua route lainnya yg udh dibuat
+
+
 Route::get('/level', [LevelController::class, 'index']);
-
-Route::get('/test', function() {
-    return 'Hey';
-});
-
 
 Route::get('/kategori', [KategoriController::class, 'index']);
 
@@ -132,3 +139,4 @@ Route::group(['prefix' => 'barang'], function() {
 
     Route::delete('/{id}', [BarangController::class, 'destroy']); //Menghapus data barang
 } );
+}) ;
