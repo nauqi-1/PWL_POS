@@ -49,7 +49,7 @@ Route::group(['prefix' => 'user'], function() {
 
 } );
 
-Route::group(['prefix' => 'level'], function() {
+Route::group(['prefix' => 'level', 'middleware' => 'authorize:ADM'], function() { 
     Route::get('/', [LevelController::class, 'index']); //Menampilkan laman awal level
     Route::post('/list', [LevelController::class, 'list']); //menampilkan data level dalam bentuk json untuk datatables.
     Route::get('/create', [LevelController::class, 'create']); //Membuat data level
