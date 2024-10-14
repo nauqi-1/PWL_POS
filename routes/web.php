@@ -142,7 +142,10 @@ Route::group(['prefix' => 'barang', 'middleware' => 'authorize:ADM,MNG'], functi
     Route::get('/{id}/delete_ajax', [BarangController::class, 'confirm_ajax']); //Munculkan pop up konfirmasi delete dengan ajax
     Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax']); //Menghapus data barang dengan ajax
 
+    Route::get('/import', [BarangController::class, 'import']); //import excel
+    Route::post('/import_ajax', [BarangController::class, 'import_ajax']); //import excel dengan ajax
 
     Route::delete('/{id}', [BarangController::class, 'destroy']); //Menghapus data barang
+
 } );
 }) ;

@@ -4,6 +4,7 @@
     <div class="card-header">
         <h3 class="card-title">{{ $page->title }}</h3>
         <div class="card-tools">
+            <button onclick="modalAction('{{ url('/barang/import') }}')" class="btn btn-info">Import Barang</button>
             <a class="btn btn-sm btn-primary mt-1" href="{{ url('barang/create') }}">Tambah</a>
             <button onclick="modalAction('{{url('barang/create_ajax')}}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
 
@@ -90,13 +91,13 @@
                 {
                     data: "kategori.kategori_nama", //mengambil kolom foreign key dari tabel kategori
                     className: "",
-                    orderable: true,
-                    searchable: true
+                    orderable: false,
+                    searchable: false
                 },
                 {
                     data: "barang_kode",
                     className: "",
-                    orderable: true,
+                    orderable: false,
                     searchable: true
                 },
                 {
@@ -108,14 +109,22 @@
                 {
                     data: "harga_beli",
                     className: "",
+                    width: "10%",
                     orderable: true,
-                    searchable: false
+                    searchable: false,
+                    render: function(data, type, row){
+                        return new Intl.NumberFormat('id-ID').format(data);
+                    }
                 },
                 {
                     data: "harga_jual",
                     className: "",
+                    width: "10%",
                     orderable: true,
-                    searchable: false
+                    searchable: false,
+                    render: function(data, type, row){
+                        return new Intl.NumberFormat('id-ID').format(data);
+                    }
                 },
                 {
                     data: "aksi",
@@ -125,6 +134,12 @@
                 }
             ]
         });
+
+        $('#table-barang_filter input').unbind().bind().on('keyup', function(e){
+            if(e.keyCode == 13){ // enter key
+                tableBarang.search(this.value).draw();
+            }
+        }); 
 
         $('#kategori_id').on('change',function() {
             dataBarang.ajax.reload();

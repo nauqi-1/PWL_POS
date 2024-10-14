@@ -6,7 +6,7 @@ use App\Models\KategoriModel;
 use App\Models\BarangModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Yajra\DataTables\Facades\DataTables;
 
 class BarangController extends Controller
@@ -270,4 +270,85 @@ class BarangController extends Controller
         return redirect('/');
     }
 
+    public function import() {
+        return view('barang.import');
+    }
+
+    public function import_ajax(Request $request) {
+        if ($request->ajax() || $request->wantsJson()) {
+            
+            // Define validation rules
+            $rules = [
+                'file_barang' => ['required', 'mimes:xlsx', 'max:1024'], // File must be XLSX, max 1MB
+            ];
+    
+            // Validate the file
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+    
+            // Get the uploaded file
+            $file = $request->file('file_barang');
+    
+            try {
+                // Load the file using PhpSpreadsheet
+                $reader = IOFactory::createReader('Xlsx');
+                $reader->setReadDataOnly(true); // Only read data from the file
+                $spreadsheet = $reader->load($file->getRealPath());
+                $sheet = $spreadsheet->getActiveSheet();
+    
+                // Convert the sheet data to an array
+                $data = $sheet->toArray(null, false, true, true);
+    
+                $insert = [];
+    
+                if (count($data) > 1) { // Ensure more than 1 row (skipping header)
+                    foreach ($data as $baris => $value) {
+                        if ($baris > 1) { // Skip the first row (header)
+                            $insert[] = [
+                                'kategori_id' => $value['A'],
+                                'barang_kode' => $value['B'],
+                                'barang_nama' => $value['C'],
+                                'harga_beli' => $value['D'],
+                                'harga_jual' => $value['E'],
+                                'created_at' => now(),
+                            ];
+                        }
+                    }
+    
+                    if (count($insert) > 0) {
+                        // Insert data into the database
+                        BarangModel::insertOrIgnore($insert);
+                    }
+    
+                    // Return success response
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'Data berhasil diimport'
+                    ]);
+                } else {
+                    // Return error if no data was imported
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Tidak ada data yang diimport'
+                    ]);
+                }
+    
+            } catch (\Exception $e) {
+                // Handle errors in file processing
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Terjadi kesalahan saat memproses file: ' . $e->getMessage()
+                ]);
+            }
+        }
+    
+        // If it's not an AJAX request, redirect
+        return redirect('/');
+    }
 }
