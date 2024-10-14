@@ -146,6 +146,7 @@ Route::group(['prefix' => 'barang', 'middleware' => 'authorize:ADM,MNG'], functi
     Route::post('/import_ajax', [BarangController::class, 'import_ajax']); //import excel dengan ajax
 
     Route::get('/export_excel', [BarangController::class, 'export_excel']); //export excel
+    Route::get('/export_pdf', [BarangController::class, 'export_pdf']); //export pdf
 
     Route::delete('/{id}', [BarangController::class, 'destroy']); //Menghapus data barang
 
