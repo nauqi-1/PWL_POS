@@ -51,6 +51,8 @@ Route::group(['prefix' => 'user', 'middleware' => 'authorize:ADM'], function() {
     Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']); //Munculkan pop up konfirmasi delete dengan ajax
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']); //Menghapus data user dengan ajax
 
+    Route::get('/export_pdf', [UserController::class, 'export_pdf']); //export pdf
+
     Route::delete('/{id}/delete_ajax', [UserController::class, 'destroy']); //Menghapus data user
 
 } );
@@ -73,6 +75,8 @@ Route::group(['prefix' => 'level', 'middleware' => 'authorize:ADM'], function() 
 
     Route::get('/{id}/delete_ajax', [LevelController::class, 'confirm_ajax']); //Munculkan pop up konfirmasi delete dengan ajax
     Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax']); //Menghapus data user dengan ajax
+
+    Route::get('/export_pdf', [LevelController::class, 'export_pdf']); //export pdf
 
     Route::delete('/{id}', [LevelController::class, 'destroy']); //Menghapus data level
 } );
@@ -97,6 +101,8 @@ Route::group(['prefix' => 'kategori', 'middleware' => 'authorize:ADM, MNG'], fun
     Route::get('/{id}/delete_ajax', [KategoriController::class, 'confirm_ajax']); //Munculkan pop up konfirmasi delete dengan ajax
     Route::delete('/{id}/delete_ajax', [KategoriController::class, 'delete_ajax']); //Menghapus data user dengan ajax
 
+    Route::get('/export_pdf', [KategoriController::class, 'export_pdf']); //export pdf
+
     Route::delete('/{id}', [KategoriController::class, 'destroy']); //Menghapus data kategori
 } );
 
@@ -119,6 +125,7 @@ Route::group(['prefix' => 'supplier',  'middleware' => 'authorize:ADM,MNG'], fun
 
     Route::get('/{id}/delete_ajax', [SupplierController::class, 'confirm_ajax']); //Munculkan pop up konfirmasi delete dengan ajax
     Route::delete('/{id}/delete_ajax', [SupplierController::class, 'delete_ajax']); //Menghapus data user dengan ajax
+    Route::get('/export_pdf', [SupplierController::class, 'export_pdf']); //export pdf
 
     Route::delete('/{id}', [SupplierController::class, 'destroy']); //
 } );
