@@ -72,7 +72,9 @@
                     level_id: { required: true, number: true },
                     username: { required: true, minlength: 3, maxlength: 20 },
                     nama: { required: true, minlength: 3, maxlength: 100 },
-                    password: { minlength: 6, maxlength: 20 }
+                    password: { minlength: 6, maxlength: 20 },
+
+
                 },
                 submitHandler: function(form) {
                     $.ajax({

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Http\Controllers;
 use App\Models\LevelModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
@@ -217,7 +218,7 @@ class UserController extends Controller
             'level_id' => 'required|integer',
             'username' => 'required|max:20|unique:m_user,username',
             'nama' => 'required|max:100',
-            'password' => 'nullable|min:6|max:20'
+            'password' => 'nullable|min:6|max:20',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -293,6 +294,34 @@ class UserController extends Controller
         $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url $pdf->render();
         return $pdf->stream ('Data User '.date('Y-m-d H:i:s').'.pdf');
     }
+
+    public function import() {
+        return view('user.import');
+    }
+ 
+
+    public function import_ajax(Request $request)
+    {
+        $request->validate([
+            'file_pfp' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
+        ]);
+    
+        $file = $request->file('file_pfp');
+    
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $path = public_path('images/pfp');
+    
+        $file->move($path, $filename);
+    
+        $user = auth()->user();
+        $user->profile_picture = $filename;
+        $user->save();
+        
+        return redirect('/');
+    }
+
+    
+    
 
 
 }

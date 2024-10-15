@@ -51,6 +51,10 @@ Route::group(['prefix' => 'user', 'middleware' => 'authorize:ADM'], function() {
     Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']); //Munculkan pop up konfirmasi delete dengan ajax
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']); //Menghapus data user dengan ajax
 
+    Route::get('/import', [UserController::class, 'import']); //import foto pfp
+    Route::post('/import_ajax', [UserController::class, 'import_ajax']); //import foto pfp ajax
+
+
     Route::get('/export_pdf', [UserController::class, 'export_pdf']); //export pdf
 
     Route::delete('/{id}/delete_ajax', [UserController::class, 'destroy']); //Menghapus data user

@@ -132,6 +132,19 @@
         </a>
 
       </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <img src="{{ asset('images/pfp/' . auth()->user()->profile_picture) }}" 
+               class="img-circle" 
+               alt="User Image" 
+               style="width: 40px; height: 40px; object-fit: cover;">
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <a href="{{url('/user/import')}}" class="dropdown-item" id="upload-photo-link">
+            <i class="fas fa-camera mr-2"></i> Upload Photo Profil
+          </a>
+        </div>
+      </li>
       <li class="nav-item">
         <a class="nav-link" data-widget="logout" data-slide="true" href="{{url('/logout')}}" role="button">
           <i class="fas fa-sign-out-alt"></i>  

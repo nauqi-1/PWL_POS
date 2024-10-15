@@ -274,7 +274,7 @@ class BarangController extends Controller
     public function import() {
         return view('barang.import');
     }
-
+ 
     public function import_ajax(Request $request) {
         if ($request->ajax() || $request->wantsJson()) {
             
