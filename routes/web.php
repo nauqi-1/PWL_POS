@@ -8,6 +8,7 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\StokController;
 use Illuminate\Support\Facades\Route;
 
 Route::pattern('id','[0-9]+'); //meaning: ketika ada parameter "id" maka nilainya harus angka, yaitu dari 0 sampai 9.
@@ -140,7 +141,7 @@ Route::group(['prefix' => 'supplier',  'middleware' => 'authorize:ADM,MNG'], fun
     Route::delete('/{id}', [SupplierController::class, 'destroy']); //
 } );
 
-Route::group(['prefix' => 'barang', 'middleware' => 'authorize:ADM,MNG'], function() {
+Route::group(['prefix' => 'barang', 'middleware' => 'authorize:ADM,MNG,STF'], function() {
     Route::get('/', [BarangController::class, 'index']); //Menampilkan laman awal barang
     Route::post('/list', [BarangController::class, 'list']); //menampilkan data barang dalam bentuk json untuk datatables.
     Route::get('/create', [BarangController::class, 'create']); //Membuat data barang
@@ -166,6 +167,29 @@ Route::group(['prefix' => 'barang', 'middleware' => 'authorize:ADM,MNG'], functi
     Route::get('/export_pdf', [BarangController::class, 'export_pdf']); //export pdf
 
     Route::delete('/{id}', [BarangController::class, 'destroy']); //Menghapus data barang
+
+} );
+
+Route::group(['prefix' => 'stok', 'middleware' => 'authorize:ADM,MNG,STF'], function() {
+    Route::get('/', [StokController::class, 'index']); //Menampilkan laman awal stok
+    Route::post('/list', [StokController::class, 'list']); //menampilkan data stok dalam bentuk json untuk datatables.
+
+    Route::get('/create_ajax', [StokController::class, 'create_ajax']); //menambah data barang dengan ajax
+    Route::post('/ajax', [StokController::class, 'store_ajax']); //menyimpan data yg telah dibuat dengan ajax
+
+    Route::get('/{id}/show_ajax', [StokController::class, 'show_ajax']); //menampilkan detail data stok?
+    
+    Route::get('/{id}/edit_ajax', [StokController::class, 'edit_ajax']); //edit data barang dengan ajax
+    Route::put('/{id}/update_ajax', [StokController::class, 'update_ajax']); //menyimpan perubahan data dengan ajax
+
+    Route::get('/{id}/delete_ajax', [StokController::class, 'confirm_ajax']); //Munculkan pop up konfirmasi delete dengan ajax
+    Route::delete('/{id}/delete_ajax', [StokController::class, 'delete_ajax']); //Menghapus data barang dengan ajax
+
+    Route::get('/import', [StokController::class, 'import']); //import excel
+    Route::post('/import_ajax', [StokController::class, 'import_ajax']); //import excel dengan ajax
+
+    Route::get('/export_excel', [StokController::class, 'export_excel']); //export excel
+    Route::get('/export_pdf', [StokController::class, 'export_pdf']); //export pdf
 
 } );
 }) ;
