@@ -1,3 +1,5 @@
+
+
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -137,13 +139,18 @@
           <img src="{{ asset('images/pfp/' . auth()->user()->profile_picture) }}" 
                class="img-circle" 
                alt="User Image" 
-               style="width: 40px; height: 40px; object-fit: cover;">
+               style="width: 40px; height: 40px; object-fit: cover; margin-top: -7px">
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="{{url('/user/import')}}" class="dropdown-item" id="upload-photo-link">
+          <a onclick="modalAction('{{url('/import')}}')" class="dropdown-item">
             <i class="fas fa-camera mr-2"></i> Upload Photo Profil
           </a>
+        <div class="dropdown-divider"></div>
+        <a onclick="modalAction('{{url('/edit_profile')}}')" class="dropdown-item">
+          <i class="fas fa-user mr-2"></i> Edit Data Diri
+        </a>
         </div>
+       
       </li>
       <li class="nav-item">
         <a class="nav-link" data-widget="logout" data-slide="true" href="{{url('/logout')}}" role="button">
@@ -153,3 +160,19 @@
       </li>
     </ul>
   </nav>
+  <script>
+    function modalAction(url = '') {
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function(response) {
+                $('#myModal').html(response); 
+                $('#myModal').modal('show'); 
+            },
+            error: function(error) {
+                console.log('Error:', error);
+                alert('Failed to load content.');
+            }
+        });
+    }
+  </script>

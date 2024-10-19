@@ -22,8 +22,11 @@ Route::post('/register', [RegisterController::class, 'store']);
 
 Route::middleware(['auth'])->group(function() { //meaning: agar semua method pada web.php meleweati middleware auth.php
 
-// yg dibawah ini adalah semua route lainnya yg harus login dulu baru bisa akses
+Route::get('/import', [UserController::class, 'import']); //buka form import
+Route::post('/import_ajax', [UserController::class, 'import_ajax']); //import foto pfp ajax
+Route::post('/edit_profile_save', [UserController::class, 'edit_profile_save']); //simpan edit
 
+Route::get('/edit_profile', [UserController::class, 'edit_profile']); //buka form edit profile
 
 Route::get('/level', [LevelController::class, 'index']);
 
@@ -31,6 +34,7 @@ Route::get('/kategori', [KategoriController::class, 'index']);
 
 Route::get('/', [WelcomeController::class,'index']);
 
+// yg dibawah ini adalah semua route lainnya yg harus login dulu baru bisa akses
 
 Route::group(['prefix' => 'user', 'middleware' => 'authorize:ADM'], function() {
     Route::get('/', [UserController::class, 'index']); //Menampilkan laman awal user
@@ -42,6 +46,8 @@ Route::group(['prefix' => 'user', 'middleware' => 'authorize:ADM'], function() {
     Route::post('/ajax', [UserController::class, 'store_ajax']); //menyimpan data yg telah dibuat dengan ajax
     
     Route::get('/{id}', [UserController::class, 'show']); //menampilkan detail data user
+    Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']);
+
     Route::get('/{id}/edit', [UserController::class, 'edit']); //Edit data user tertentu
     Route::put('/{id}', [UserController::class, 'update']); //Menyimpan perubahan data user 
 
@@ -50,10 +56,6 @@ Route::group(['prefix' => 'user', 'middleware' => 'authorize:ADM'], function() {
 
     Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']); //Munculkan pop up konfirmasi delete dengan ajax
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']); //Menghapus data user dengan ajax
-
-    Route::get('/import', [UserController::class, 'import']); //import foto pfp
-    Route::post('/import_ajax', [UserController::class, 'import_ajax']); //import foto pfp ajax
-
 
     Route::get('/export_pdf', [UserController::class, 'export_pdf']); //export pdf
 
@@ -71,6 +73,8 @@ Route::group(['prefix' => 'level', 'middleware' => 'authorize:ADM'], function() 
     Route::post('/ajax', [LevelController::class, 'store_ajax']); //menyimpan data level baru w ajax
 
     Route::get('/{id}', [LevelController::class, 'show']); //menampilkan detail data level?
+    Route::get('/{id}/show_ajax', [LevelController::class, 'show_ajax']);
+
     Route::get('/{id}/edit', [LevelController::class, 'edit']); //Edit data level tertentu
     Route::put('/{id}', [LevelController::class, 'update']); //Menyimpan perubahan data level 
 
@@ -95,6 +99,8 @@ Route::group(['prefix' => 'kategori', 'middleware' => 'authorize:ADM, MNG'], fun
     Route::post('/ajax', [KategoriController::class, 'store_ajax']); //menyimpan data baru w ajax
 
     Route::get('/{id}', [KategoriController::class, 'show']); //menampilkan detail data kategori?
+    Route::get('/{id}/show_ajax', [KategoriController::class, 'show_ajax']); //menampilkan detail data kategori dengan ajax
+
     Route::get('/{id}/edit', [KategoriController::class, 'edit']); //Edit data kategori tertentu
     Route::put('/{id}', [KategoriController::class, 'update']); //Menyimpan perubahan data kategori 
 
@@ -119,7 +125,7 @@ Route::group(['prefix' => 'supplier',  'middleware' => 'authorize:ADM,MNG'], fun
     Route::get('/create_ajax', [SupplierController::class, 'create_ajax']); //Buat data supplier w ajax
     Route::post('/ajax', [SupplierController::class, 'store_ajax']); //menyimpan data baru w ajax
 
-    Route::get('/{id}', [SupplierController::class, 'show']); //
+    Route::get('/{id}/show_ajax', [SupplierController::class, 'show_ajax']); //
     Route::get('/{id}/edit', [SupplierController::class, 'edit']); //
     Route::put('/{id}', [SupplierController::class, 'update']); // 
 
@@ -143,7 +149,7 @@ Route::group(['prefix' => 'barang', 'middleware' => 'authorize:ADM,MNG'], functi
     Route::get('/create_ajax', [BarangController::class, 'create_ajax']); //menambah data barang dengan ajax
     Route::post('/ajax', [BarangController::class, 'store_ajax']); //menyimpan data yg telah dibuat dengan ajax
 
-    Route::get('/{id}', [BarangController::class, 'show']); //menampilkan detail data barang?
+    Route::get('/{id}/show_ajax', [BarangController::class, 'show_ajax']); //menampilkan detail data barang?
     Route::get('/{id}/edit', [BarangController::class, 'edit']); //Edit data barangtertentu
     Route::put('/{id}', [BarangController::class, 'update']); //Menyimpan perubahan data barang 
 

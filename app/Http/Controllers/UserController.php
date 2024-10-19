@@ -296,7 +296,7 @@ class UserController extends Controller
     }
 
     public function import() {
-        return view('user.import');
+        return view('import');
     }
  
 
@@ -320,7 +320,45 @@ class UserController extends Controller
         return redirect('/');
     }
 
+    public function show_ajax(string $id) {
+        $user = UserModel::find($id);
+
+        return view('user.show_ajax', ['user' => $user]);
+    }
+
+    public function edit_profile()
+    {
+        return view('edit_profile', ['user' => auth()->user()]);
+    }
     
+    
+    public function edit_profile_save(Request $request)
+{
+    $user = auth()->user();
+
+    $request->validate([
+        'nama' => 'required|string|max:255',
+        'password' => ['nullable', 'confirmed'], // Ensure 'password_confirmation' exists in the form
+    ]);
+
+    // Update name
+    $user->nama = $request->nama;
+
+    // Update password if provided
+    if ($request->password) {
+        $user->password = Hash::make($request->password);
+    }
+
+    $user->save();
+
+    // Check if the request is an AJAX request
+    if ($request->ajax()) {
+        return response()->json(['status' => true, 'message' => 'Profile updated successfully']);
+    }
+
+    return redirect('/')->with('status', 'Profile updated successfully!');
+}
+
     
 
 

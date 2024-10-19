@@ -258,4 +258,11 @@ class LevelController extends Controller
         $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url $pdf->render();
         return $pdf->stream ('Data Barang '.date('Y-m-d H:i:s').'.pdf');
     }
+
+    public function show_ajax(string $id) {
+        $level = LevelModel::find($id);
+
+        return view('level.show_ajax', ['level' => $level]);
+    } 
+    
 }
