@@ -4,10 +4,10 @@
     <div class="card-header">
         <h3 class="card-title">{{ $page->title }}</h3>
         <div class="card-tools">
-            <button onclick="modalAction('{{ url('/stok/import') }}')" class="btn btn-info">Import Stok</button>
-            <a href="{{ url('/stok/export_excel') }}" class="btn btn-primary"><i class="fa fa-file-excel"></i> Export Excel</a>
-            <a href="{{ url('/stok/export_pdf') }}" class="btn btn-warning"><i class="fa fa-file-pdf"></i> Export PDF </a>
-            <button onclick="modalAction('{{url('stok/create_ajax')}}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
+            <button onclick="modalAction('{{ url('/penjualan/import') }}')" class="btn btn-info">Import Penjualan</button>
+            <a href="{{ url('/penjualan/export_excel') }}" class="btn btn-primary"><i class="fa fa-file-excel"></i> Export Excel</a>
+            <a href="{{ url('/penjualan/export_pdf') }}" class="btn btn-warning"><i class="fa fa-file-pdf"></i> Export PDF </a>
+            <button onclick="modalAction('{{url('penjualan/create_ajax')}}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
 
         </div>
     </div>
@@ -26,34 +26,26 @@
                         <div class="col-3">
                             <select class="form-control" id="supplier_id" name="supplier_id" required>
                                 <option value="">- Semua -</option>
-                                @foreach($supplier as $item)
-                                    <option value="{{ $item->supplier_id }}">{{ $item->supplier_nama }}</option>
-                                @endforeach
-                            </select>
-                            <small class="form-text text-muted">Supplier Stok</small>
-                        </div>
-                        <div class="col-3">
-                            <select class="form-control" id="user_id" name="user_id" required>
-                                <option value="">- Semua -</option>
                                 @foreach($user as $item)
                                     <option value="{{ $item->user_id }}">{{ $item->nama }}</option>
                                 @endforeach
                             </select>
-                            <small class="form-text text-muted">Penerima Stok</small>
+                            <small class="form-text text-muted">Kasir</small>
                         </div>
                     </div>
                 </div>
             </div>
             
-        <table class="table table-bordered table-striped table-hover table-sm" id="table_stok">
+        <table class="table table-bordered table-striped table-hover table-sm" id="table_penjualan">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Supplier</th>
-                    <th>Nama Barang</th>
-                    <th>Penerima</th>
+                    <th>Kasir</th>
+                    <th>Pembeli</th>
+                    <th>Kode Penjualan</th>
+                    <th>Jumlah Jenis Barang</th>
+                    <th>Total Harga</th>
                     <th>Tanggal</th>
-                    <th>Jumlah</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -69,73 +61,81 @@
 
 @push('js')
 <script>
-        function modalAction(url = '') {
+    function modalAction(url = '') {
         $('#myModal').load(url,function() {
             $('#myModal').modal('show');
         });
     }
 
-    var dataStok;
+    var dataPenjualan;
 
     $(document).ready(function() {
-        dataStok = $('#table_stok').DataTable({
-            // serverSide: true, jika ingin menggunakan server side processing
+        dataPenjualan = $('#table_penjualan').DataTable({
             serverSide: true,
             ajax: {
-                "url": "{{ url('stok/list') }}",
+                "url": "{{ url('penjualan/list') }}",
                 "dataType": "json",
                 "type": "POST",
-
                 "data": function(s) {
-                    s.supplier_id = $('#supplier_id').val();
-                    s.user_id = $('#user_id').val();
-                    console.log(s.supplier_id); 
+                    s.user_id = $('#supplier_id').val();
                     console.log(s.user_id);
                 }
             },
             columns: [
                 {
-                    data: "DT_RowIndex",
+                    data: "penjualan_id",
                     className: "",
                     orderable: false,
                     searchable: false
                 },
                 {
-                    data: "supplier.supplier_nama", //mengambil kolom foreign key dari tabel supplier
+                    data: "user.nama", 
                     className: "",
                     orderable: false,
                     searchable: true
                 },
                 {
-                    data: "barang.barang_nama",
+                    data: "pembeli",
                     className: "",
                     orderable: false,
                     searchable: true
                 },
                 {
-                    data: "user.nama",
+                    data: "penjualan_kode",
                     className: "",
                     orderable: false,
                     searchable: true
                 },
                 {
-                    data: "stok_tanggal",
+                    data: "jumlah_barang", // Aggregate the number of items sold
+                    className: "",
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row){
+                        return row.penjualan_detail.length; // Count the details rows
+                    }
+                },
+                {
+                    data: "total_harga", // Aggregate the total price
+                    className: "",
+                    orderable: true,
+                    searchable: false,
+                    render: function(data, type, row){
+                        let total = 0;
+                        row.penjualan_detail.forEach(function(detail) {
+                            total += detail.harga * detail.jumlah; // Calculate total price for each item
+                        });
+                        return new Intl.NumberFormat('id-ID').format(total); // Format total as currency
+                    }
+                },
+                {
+                    data: "penjualan_tanggal",
                     className: "",
                     orderable: true,
                     searchable: false
                 },
                 {
-                    data: "stok_jumlah",
-                    className: "",
-                    width: "10%",
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, row){
-                        return new Intl.NumberFormat('id-ID').format(data);
-                    }
-                },
-                {
-                    data: "aksi",
+                    data: "aksi", // Action buttons
                     className: "",
                     orderable: false,
                     searchable: false
@@ -143,16 +143,10 @@
             ]
         });
 
-        $('#table-stok_filter input').unbind().bind().on('keyup', function(e){
-            if(e.keyCode == 13){ // enter key
-                tableStok.search(this.value).draw();
-            }
-        }); 
-
-        $('#supplier_id, #user_id').on('change',function() {
-            dataStok.ajax.reload();
-        })
-
+        $('#supplier_id').on('change', function() {
+            dataPenjualan.ajax.reload(); // Reload data when filter changes
+        });
     });
 </script>
+
 @endpush

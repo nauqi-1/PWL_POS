@@ -188,12 +188,10 @@ class StokController extends Controller
     public function import_ajax(Request $request) {
         if ($request->ajax() || $request->wantsJson()) {
             
-            // Define validation rules
             $rules = [
-                'file_stok' => ['required', 'mimes:xlsx', 'max:1024'], // File must be XLSX, max 1MB
+                'file_stok' => ['required', 'mimes:xlsx', 'max:1024'], 
             ];
     
-            // Validate the file
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
                 return response()->json([
@@ -203,29 +201,30 @@ class StokController extends Controller
                 ]);
             }
     
-            // Get the uploaded file
             $file = $request->file('file_stok');
     
             try {
-                // Load the file using PhpSpreadsheet
                 $reader = IOFactory::createReader('Xlsx');
-                $reader->setReadDataOnly(true); // Only read data from the file
+                $reader->setReadDataOnly(true); 
                 $spreadsheet = $reader->load($file->getRealPath());
                 $sheet = $spreadsheet->getActiveSheet();
     
-                // Convert the sheet data to an array
                 $data = $sheet->toArray(null, false, true, true);
     
                 $insert = [];
     
-                if (count($data) > 1) { // Ensure more than 1 row (skipping header)
+                if (count($data) > 1) { 
                     foreach ($data as $baris => $value) {
-                        if ($baris > 1) { // Skip the first row (header)
+                        if ($baris > 1) { 
+
+                            $excelDate = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($value['D']);
+                        $stok_tanggal = $excelDate ? $excelDate->format('Y-m-d H:i:s') : null;
+
                             $insert[] = [
                                 'supplier_id' => $value['A'],
                                 'barang_id' => $value['B'],
                                 'user_id' => $value['C'],
-                                'stok_tanggal' => $value['D'],
+                                'stok_tanggal' => $stok_tanggal,
                                 'stok_jumlah' => $value['E'],
                                 'created_at' => now(),
                             ];

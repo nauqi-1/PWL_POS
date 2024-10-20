@@ -15,9 +15,14 @@ class PenjualanModel extends Model
 
     protected $fillable=['user_id','pembeli','penjualan_kode','penjualan_tanggal'];
 
-    public function user_id():BelongsTo 
+    public function user():BelongsTo 
     {
         return $this->belongsTo(UserModel::class, 'user_id', 'user_id');
+    }
+
+    public function penjualan_detail()
+    {
+        return $this->hasMany(PenjualanDetailModel::class, 'penjualan_id', 'penjualan_id');
     }
 
 }

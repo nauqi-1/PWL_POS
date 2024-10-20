@@ -9,6 +9,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\StokController;
+use App\Http\Controllers\PenjualanController;
 use Illuminate\Support\Facades\Route;
 
 Route::pattern('id','[0-9]+'); //meaning: ketika ada parameter "id" maka nilainya harus angka, yaitu dari 0 sampai 9.
@@ -190,6 +191,29 @@ Route::group(['prefix' => 'stok', 'middleware' => 'authorize:ADM,MNG,STF'], func
 
     Route::get('/export_excel', [StokController::class, 'export_excel']); //export excel
     Route::get('/export_pdf', [StokController::class, 'export_pdf']); //export pdf
+
+} );
+
+Route::group(['prefix' => 'penjualan', 'middleware' => 'authorize:ADM,MNG,STF'], function() {
+    Route::get('/', [PenjualanController::class, 'index']); //Menampilkan laman awal stok
+    Route::post('/list', [PenjualanController::class, 'list']); //menampilkan data stok dalam bentuk json untuk datatables.
+
+    Route::get('/create_ajax', [PenjualanController::class, 'create_ajax']); //menambah data barang dengan ajax
+    Route::post('/ajax', [PenjualanController::class, 'store_ajax']); //menyimpan data yg telah dibuat dengan ajax
+
+    Route::get('/{id}/show_ajax', [PenjualanController::class, 'show_ajax']); //menampilkan detail data stok?
+    
+    Route::get('/{id}/edit_ajax', [PenjualanController::class, 'edit_ajax']); //edit data barang dengan ajax
+    Route::put('/{id}/update_ajax', [PenjualanController::class, 'update_ajax']); //menyimpan perubahan data dengan ajax
+
+    Route::get('/{id}/delete_ajax', [PenjualanController::class, 'confirm_ajax']); //Munculkan pop up konfirmasi delete dengan ajax
+    Route::delete('/{id}/delete_ajax', [PenjualanController::class, 'delete_ajax']); //Menghapus data barang dengan ajax
+
+    Route::get('/import', [PenjualanController::class, 'import']); //import excel
+    Route::post('/import_ajax', [PenjualanController::class, 'import_ajax']); //import excel dengan ajax
+
+    Route::get('/export_excel', [PenjualanController::class, 'export_excel']); //export excel
+    Route::get('/export_pdf', [PenjualanController::class, 'export_pdf']); //export pdf
 
 } );
 }) ;
