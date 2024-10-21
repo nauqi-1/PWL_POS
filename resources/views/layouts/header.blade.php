@@ -138,11 +138,11 @@
         <a class="nav-link" data-toggle="dropdown" href="#">
           <img src="{{ asset('images/pfp/' . auth()->user()->profile_picture) }}" 
                class="img-circle" 
-               alt="User Image" 
+               alt="Profile"
                style="width: 40px; height: 40px; object-fit: cover; margin-top: -7px">
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a onclick="modalAction('{{url('/import')}}')" class="dropdown-item">
+          <a onclick="modalAction('{{url('/import_pfp')}}')" class="dropdown-item">
             <i class="fas fa-camera mr-2"></i> Upload Photo Profil
           </a>
         <div class="dropdown-divider"></div>

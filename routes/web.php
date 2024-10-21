@@ -10,7 +10,9 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\PenjualanController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use Monolog\Level;
 
 Route::pattern('id','[0-9]+'); //meaning: ketika ada parameter "id" maka nilainya harus angka, yaitu dari 0 sampai 9.
 
@@ -24,8 +26,8 @@ Route::post('/register', [RegisterController::class, 'store']);
 
 Route::middleware(['auth'])->group(function() { //meaning: agar semua method pada web.php meleweati middleware auth.php
 
-Route::get('/import', [UserController::class, 'import']); //buka form import
-Route::post('/import_ajax', [UserController::class, 'import_ajax']); //import foto pfp ajax
+Route::get('/import_pfp', [UserController::class, 'import_pfp']); //buka form import
+Route::post('/import_ajax_pfp', [UserController::class, 'import_ajax_pfp']); //import foto pfp ajax
 Route::post('/edit_profile_save', [UserController::class, 'edit_profile_save']); //simpan edit
 
 Route::get('/edit_profile', [UserController::class, 'edit_profile']); //buka form edit profile
@@ -59,6 +61,11 @@ Route::group(['prefix' => 'user', 'middleware' => 'authorize:ADM'], function() {
     Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']); //Munculkan pop up konfirmasi delete dengan ajax
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']); //Menghapus data user dengan ajax
 
+    Route::get('/import', [UserController::class, 'import']); //import excel
+    Route::post('/import_ajax', [UserController::class, 'import_ajax']); //import excel dengan ajax
+    Route::get('/export_excel', [UserController::class, 'export_excel']); //export excel
+    Route::get('/export_pdf', [UserController::class, 'export_pdf']); //export pdf
+
     Route::get('/export_pdf', [UserController::class, 'export_pdf']); //export pdf
 
     Route::delete('/{id}/delete_ajax', [UserController::class, 'destroy']); //Menghapus data user
@@ -86,6 +93,9 @@ Route::group(['prefix' => 'level', 'middleware' => 'authorize:ADM'], function() 
     Route::get('/{id}/delete_ajax', [LevelController::class, 'confirm_ajax']); //Munculkan pop up konfirmasi delete dengan ajax
     Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax']); //Menghapus data user dengan ajax
 
+    Route::get('/import', [LevelController::class, 'import']); //import excel
+    Route::post('/import_ajax', [LevelController::class, 'import_ajax']); //import excel dengan ajax
+    Route::get('/export_excel', [LevelController::class, 'export_excel']); //export excel
     Route::get('/export_pdf', [LevelController::class, 'export_pdf']); //export pdf
 
     Route::delete('/{id}', [LevelController::class, 'destroy']); //Menghapus data level
@@ -113,6 +123,10 @@ Route::group(['prefix' => 'kategori', 'middleware' => 'authorize:ADM, MNG'], fun
     Route::get('/{id}/delete_ajax', [KategoriController::class, 'confirm_ajax']); //Munculkan pop up konfirmasi delete dengan ajax
     Route::delete('/{id}/delete_ajax', [KategoriController::class, 'delete_ajax']); //Menghapus data user dengan ajax
 
+    Route::get('/import', [KategoriController::class, 'import']); //import excel
+    Route::post('/import_ajax', [KategoriController::class, 'import_ajax']); //import excel dengan ajax
+    Route::get('/export_excel', [KategoriController::class, 'export_excel']); //export excel
+
     Route::get('/export_pdf', [KategoriController::class, 'export_pdf']); //export pdf
 
     Route::delete('/{id}', [KategoriController::class, 'destroy']); //Menghapus data kategori
@@ -137,6 +151,12 @@ Route::group(['prefix' => 'supplier',  'middleware' => 'authorize:ADM,MNG'], fun
 
     Route::get('/{id}/delete_ajax', [SupplierController::class, 'confirm_ajax']); //Munculkan pop up konfirmasi delete dengan ajax
     Route::delete('/{id}/delete_ajax', [SupplierController::class, 'delete_ajax']); //Menghapus data user dengan ajax
+
+
+    Route::get('/import', [SupplierController::class, 'import']); //import excel
+    Route::post('/import_ajax', [SupplierController::class, 'import_ajax']); //import excel dengan ajax
+    Route::get('/export_excel', [SupplierController::class, 'export_excel']); //export excel
+
     Route::get('/export_pdf', [SupplierController::class, 'export_pdf']); //export pdf
 
     Route::delete('/{id}', [SupplierController::class, 'destroy']); //
