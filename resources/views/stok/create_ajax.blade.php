@@ -30,13 +30,9 @@
                     <small id="error-barang_id" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>Penerima Stok</label>
-                    <select name="user_id" id="user" class="form-control" required>
-                        <option value="">- Pilih User -</option>
-                        @foreach($user as $s)
-                            <option value="{{ $s->user_id }}">{{ $s->nama }}</option>
-                        @endforeach
-                    </select>
+                    <label>User</label>
+                    <input type="text" class="form-control" value="{{ auth()->user()->nama }}" readonly>
+                    <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                     <small id="error-user_id" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">

@@ -11,14 +11,11 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>User</label>
-                    <select name="user_id" id="user" class="form-control" required>
-                        <option value="">- Pilih User -</option>
-                        @foreach($user as $s)
-                            <option value="{{ $s->user_id }}">{{ $s->nama }}</option>
-                        @endforeach
-                    </select>
+                    <input type="text" class="form-control" value="{{ auth()->user()->nama }}" readonly>
+                    <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                     <small id="error-user_id" class="error-text form-text text-danger"></small>
                 </div>
+                
                 <div class="form-group">
                     <label>Pembeli</label>
                     <input type="text" name="pembeli" id="pembeli" class="form-control" required>
@@ -35,10 +32,10 @@
                         <div class="row item-row">
                             <div class="col-md-4">
                                 <label>Nama Barang</label>
-                                <select name="items[0][barang_id]" class="form-control" required>
+                                <select name="items[0][barang_id]" class="form-control check-harga" required>
                                     <option value="">- Pilih Barang -</option>
                                     @foreach($barang as $item)
-                                        <option value="{{ $item->barang_id }}">{{ $item->barang_nama }}</option>
+                                        <option data-harga="{{$item->harga_jual}}" value="{{ $item->barang_id }}">{{ $item->barang_nama }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -48,7 +45,7 @@
                             </div>
                             <div class="col-md-3">
                                 <label>Harga</label>
-                                <input type="number" name="items[0][harga]" class="form-control" required>
+                                <input type="number" name="items[0][harga]" class="form-control harga" required>
                             </div>
                             <div class="col-md-2">
                                 <label>&nbsp;</label>
@@ -76,6 +73,14 @@
 
 <script>
     $(document).ready(function() {
+        function updateHarga() {
+        $('.check-harga').on('change', function() {
+            let selectedHarga = $('option:selected', this).data('harga');
+            $(this).closest('.item-row').find('.harga').val(selectedHarga);
+        });
+    }
+        updateHarga();
+        
         let itemIndex = 1; 
         let validator = $("#form-tambah").validate({
             rules: {

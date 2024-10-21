@@ -12,3 +12,15 @@
     </div>
 </div>
 @endsection
+@push('css')
+    
+@endpush
+@push('js')
+    <script>
+        function modalAction(url = '') {
+        $('#myModal').load(url,function() {
+            $('#myModal').modal('show');
+        });
+    }
+    </script>
+@endpush

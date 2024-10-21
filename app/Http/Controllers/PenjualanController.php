@@ -63,7 +63,7 @@ class PenjualanController extends Controller
     } 
     
     public function create_ajax() {
-        $barang = BarangModel::select('barang_id', 'barang_nama') -> get();
+        $barang = BarangModel::select('barang_id', 'barang_nama','harga_jual') -> get();
         $user = UserModel::select('user_id', 'nama') -> get();
     
 

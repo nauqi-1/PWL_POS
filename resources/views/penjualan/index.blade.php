@@ -107,25 +107,25 @@
                     searchable: true
                 },
                 {
-                    data: "jumlah_barang", // Aggregate the number of items sold
+                    data: "jumlah_barang", 
                     className: "",
                     orderable: false,
                     searchable: false,
                     render: function(data, type, row){
-                        return row.penjualan_detail.length; // Count the details rows
+                        return row.penjualan_detail.length; 
                     }
                 },
                 {
-                    data: "total_harga", // Aggregate the total price
+                    data: "total_harga", 
                     className: "",
                     orderable: true,
                     searchable: false,
                     render: function(data, type, row){
                         let total = 0;
                         row.penjualan_detail.forEach(function(detail) {
-                            total += detail.harga * detail.jumlah; // Calculate total price for each item
+                            total += detail.harga * detail.jumlah; 
                         });
-                        return new Intl.NumberFormat('id-ID').format(total); // Format total as currency
+                        return new Intl.NumberFormat('id-ID').format(total); 
                     }
                 },
                 {
@@ -135,7 +135,7 @@
                     searchable: false
                 },
                 {
-                    data: "aksi", // Action buttons
+                    data: "aksi", 
                     className: "",
                     orderable: false,
                     searchable: false
@@ -144,7 +144,7 @@
         });
 
         $('#supplier_id').on('change', function() {
-            dataPenjualan.ajax.reload(); // Reload data when filter changes
+            dataPenjualan.ajax.reload(); 
         });
     });
 </script>
