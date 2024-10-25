@@ -21,7 +21,7 @@
                 </a>
             </li>
 
-            <li class="nav-header">Data Pengguna</li>
+            <li class="nav-header">Data Master</li>
             <li class="nav-item">
                 <a href="{{ url('/level') }}" class="nav-link {{ ($activeMenu == 'level') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-layer-group"></i>
@@ -34,8 +34,13 @@
                     <p>Data User</p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ url('/supplier') }}" class="nav-link {{ ($activeMenu == 'supplier') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-user"></i>
+                    <p>Data Supplier</p>
+                </a>
+            </li>
 
-            <li class="nav-header">Data Barang</li>
             <li class="nav-item">
                 <a href="{{ url('/kategori') }}" class="nav-link {{ ($activeMenu == 'kategori') ? 'active' : '' }}">
                     <i class="nav-icon far fa-bookmark"></i>
@@ -49,7 +54,7 @@
                 </a>
             </li>
 
-            <li class="nav-header">Data Transaksi</li>
+            <li class="nav-header">Data Transaksional</li>
             <li class="nav-item">
                 <a href="{{ url('/stok') }}" class="nav-link {{ ($activeMenu == 'stok') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-cubes"></i>
@@ -62,12 +67,7 @@
                     <p>Transaksi Penjualan</p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="{{ url('/supplier') }}" class="nav-link {{ ($activeMenu == 'supplier') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-user"></i>
-                    <p>Data Supplier</p>
-                </a>
-            </li>
+            
         </ul>
     </nav>
 </div>

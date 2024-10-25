@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\APIController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\UserController;
@@ -236,4 +237,8 @@ Route::group(['prefix' => 'penjualan', 'middleware' => 'authorize:ADM,MNG,STF'],
     Route::get('/export_pdf', [PenjualanController::class, 'export_pdf']); //export pdf
 
 } );
-}) ;
+});
+
+
+
+

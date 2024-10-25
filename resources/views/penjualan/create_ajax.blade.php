@@ -73,6 +73,8 @@
 
 <script>
     $(document).ready(function() {
+        let itemIndex = 1; 
+
         function updateHarga() {
         $('.check-harga').on('change', function() {
             let selectedHarga = $('option:selected', this).data('harga');
@@ -80,8 +82,7 @@
         });
     }
         updateHarga();
-        
-        let itemIndex = 1; 
+
         let validator = $("#form-tambah").validate({
             rules: {
                 pembeli: { required: true },

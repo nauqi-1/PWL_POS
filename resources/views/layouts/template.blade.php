@@ -34,7 +34,7 @@
     <!-- Brand Logo -->
     <a href="{{url('/')}}" class="brand-link">
       <img src="{{url('adminlte/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">PWL Starter Code</span>
+      <span class="brand-text font-weight-light">Sistem Point of Sales</span>
     </a>
 
     <!-- Sidebar -->
