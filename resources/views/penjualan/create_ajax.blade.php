@@ -47,7 +47,7 @@
                                 <label>Harga</label>
                                 <input type="number" name="items[0][harga]" class="form-control harga" required>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-1">
                                 <label>&nbsp;</label>
                                 <button type="button" class="btn btn-danger remove-item">Hapus</button>
                             </div>
@@ -147,7 +147,6 @@
         }
     });
 
-    // Adding new item row
     $('#add-item').on('click', function() {
         const newItemRow = `
             <div class="row item-row">
@@ -168,7 +167,7 @@
                     <label>Harga</label>
                     <input type="number" name="items[${itemIndex}][harga]" class="form-control harga" required>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <label>&nbsp;</label>
                     <button type="button" class="btn btn-danger remove-item">Hapus</button>
                 </div>
