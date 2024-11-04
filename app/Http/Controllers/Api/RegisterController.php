@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
+
 use Illuminate\Http\Request;
 use App\Models\UserModel;
 use GrahamCampbell\ResultType\Success;
+use Illuminate\Support\Facades\Validator;
+
 
 class RegisterController extends Controller
 {
@@ -16,7 +18,9 @@ class RegisterController extends Controller
           'username' => 'required',
           'nama' => 'required',
           'password' => 'required|min:5|confirmed',
-          'level_id' => 'required'
+          'level_id' => 'required',
+          'image' => 'required|image|mimes:jpeg,jpg,png|max:2048' //tambah kolom image utk validasi
+
         ]);
 
         //jika validation gagal
@@ -29,7 +33,8 @@ class RegisterController extends Controller
             'username' => $request->username,
             'nama' => $request->nama,
             'password' => bcrypt($request->password),
-            'level_id' => $request->level_id
+            'level_id' => $request->level_id,
+            'image' => $request->image->hashName()
         ]);
 
         //return response JSON jika user berhasil dibuat

@@ -78,15 +78,18 @@ class BarangController extends Controller
            'kategori_id'    => 'required|integer',
            'barang_nama'    => 'required|string|max:100',
            'harga_beli'     => 'required|integer',
-           'harga_jual'     => 'required|integer'
+           'harga_jual'     => 'required|integer',
+           'image'          => 'required|image|max:2048'
        ]);
+
 
        BarangModel::create([
            'barang_kode'    => $request->barang_kode,
            'kategori_id'    => $request->kategori_id,
            'barang_nama'    => $request->barang_nama,
            'harga_beli'     => $request->harga_beli,
-           'harga_jual'     => $request->harga_jual
+           'harga_jual'     => $request->harga_jual,
+           'image'          => $request->image->hashName()
        ]);
 
        return redirect('/barang')->with('success', 'Data barang berhasil disimpan.');

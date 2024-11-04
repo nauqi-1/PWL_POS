@@ -40,7 +40,7 @@ class RegisterController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password), 
             'nama' => $request->nama, 
-            'level_id' => $request->level_id
+            'level_id' => $request->level_id,
         ]);
 
         return response()->json([
